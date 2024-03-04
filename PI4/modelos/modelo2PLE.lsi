@@ -18,9 +18,9 @@ constraints section
 
 sum(getCategoria(i, j) x[i], i in 0 .. n) >= 1, j in 0 .. m
 
-sum(getPrecio(i) x[i], i in 0 .. n) <= getPresupuesto()
+sum(getPrecio(i) x[i], i in 0 .. n | getCategoria(i, j) = 1) <= getPresupuesto(), j in 0 .. m
 
-sum(getValoracion(i) x[i], i in 0 .. n) / sum(x[i], i in 0 .. n) >= 3
+sum(getValoracion(i) x[i], i in 0 .. n) - sum(3 x[i], i in 0 .. n) >= 0
 
 bin
 x[i], i in 0 .. n

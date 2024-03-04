@@ -1,4 +1,4 @@
-package p4.ej_2;
+package p4.prueba;
 
 import java.util.HashSet;
 import java.util.List;
@@ -8,11 +8,10 @@ import us.lsi.common.Files2;
 import us.lsi.common.List2;
 import us.lsi.common.String2;
 
-public class DatosCesta {
-	
-	public static Integer Presupuesto;
+public class Datos2 {
 	
 	public static List<Producto> ListaProductos;
+	public static List<Integer> ListaPresupuesto;
 	
 	public static Integer id;
 	public static Integer precio;
@@ -22,14 +21,6 @@ public class DatosCesta {
 	public static Integer getCategoria(Integer i, Integer j){
 		if (ListaProductos.get(i).Categoria.equals(j)) {
 			return 1;
-		} else {
-			return 0;
-		}
-	}
-	
-	public static Integer getPrecioDeCategoria(Integer i, Integer j) {
-		if (ListaProductos.get(i).Categoria.equals(j)) {
-			return ListaProductos.get(i).Precio;
 		} else {
 			return 0;
 		}
@@ -49,7 +40,10 @@ public class DatosCesta {
 		return ListaProductos;
 	}
 	public static Integer getPresupuesto() {
-		return Presupuesto;
+		return ListaPresupuesto.get(0);
+	}
+	public static List<Integer> getListaPresupuesto() {
+		return ListaPresupuesto;
 	}
 	public static Integer getValoracion(Integer i) {
 		return ListaProductos.get(i).Valoracion;
@@ -57,10 +51,12 @@ public class DatosCesta {
 	public static Integer getPrecio(Integer i) {
 		return ListaProductos.get(i).Precio;
 	}
-	public static Integer parseaPresupuesto(String entrada) {
+	public static List<Integer> parseaPresupuesto(String entrada) {
 		String[] linea = entrada.split("=");
-		Presupuesto = Integer.parseInt(linea[1].trim());
-		return Presupuesto;
+		Integer a = 0;
+		a = Integer.parseInt(linea[1].trim());
+		ListaPresupuesto.add(a);
+		return ListaPresupuesto;
 	}
 	public record Producto(Integer Id_prod,Integer Precio,Integer Categoria,Integer Valoracion) {
 		
@@ -78,11 +74,11 @@ public class DatosCesta {
 	}
 	public static void iniDatos(String File) {
 		List<String> lineas = Files2.linesFromFile(File);
-		Presupuesto = 0;
+		ListaPresupuesto = List2.empty();
 		ListaProductos = List2.empty();
 		for(String linea:lineas) {
 			if(linea.contains("Presupuesto") && !linea.contains("//")) {
-				Presupuesto = parseaPresupuesto(linea);
+				ListaPresupuesto = parseaPresupuesto(linea);
 				
 			}else if(!linea.contains("//")) {
 				ListaProductos.add(Producto.parseaProducto(linea));
@@ -91,12 +87,12 @@ public class DatosCesta {
 		toConsole();
 	}
 	public static void toConsole() {
-		String2.toConsole("\nPresupuesto: \n" + Presupuesto);
+		String2.toConsole("\nPresupuesto: \n" + ListaPresupuesto);
 		String2.toConsole("\nLista Productos: \n" + ListaProductos);
 	}
 	
 	public static void main(String[] args) {
 		iniDatos("ficheros/Ejercicio2DatosEntrada1.txt");
+		System.out.println(getNumProductos());
 	}
-
 }

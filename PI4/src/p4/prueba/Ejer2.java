@@ -1,4 +1,4 @@
-package p4.ej_2;
+package p4.prueba;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -6,37 +6,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import p4.ej_2.DatosCesta.Producto;
+import p4.prueba.Datos2.Producto;
 import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;
 
-public class Ejercicio2PLE {
-	/*
-	 * PLE hay que hacer un modelo en .lsi
-
-	 * + Minimar el precio total de la cesta de navidad
-	 * 		- Entre los productos seleccionados
-	 * 
-	 * + Solucion
-	 * 		- Se quiere saber que productos se seleccionas
-	 * 			Bin xi
-	 * sum(getValoracion(i) x[i], i in 0 .. n) / sum(x[i], i in 0 .. n) >= 3
-	 * FICHERO DE ENTRADA
-	 * 
-	 * Presupuesto=150
-	 * id_prod:precio:Categoria:valoracion (Esto es un comentario)
-	 * 0:10:0:5
-	 * ...
-	 * FIN FICHERO ENTRADA
-	 * 
-	 * 
-	 * ALFGORTIMO GENETICO
-	 * NO CAMBIAMOS EL MODELO Y EL CROMOSOMA SERA BINARIO, EL MISMO QUE EN PLE.
-	 * 
-	 */
-	
-	public static Integer Presupuesto;
+public class Ejer2 {
+	public static List<Integer> ListaPresupuesto;
 	
 	public static List<Producto> ListaProductos;
 	
@@ -49,15 +25,10 @@ public class Ejercicio2PLE {
 		return ListaProductos.size();
 	}
 	public static Integer getPresupuesto() {
-		return Presupuesto;
+		return ListaPresupuesto.get(0);
 	}
-	
-	public static Integer getPrecioDeCategoria(Integer i, Integer j) {
-		if (ListaProductos.get(i).Categoria().equals(j)) {
-			return ListaProductos.get(i).Precio();
-		} else {
-			return 0;
-		}
+	public static List<Integer> getListaPresupuesto() {
+		return ListaPresupuesto;
 	}
 	public static Integer getNumCategorias() {
 		Set<Integer> conjunto = new HashSet<Integer>();
@@ -83,12 +54,12 @@ public class Ejercicio2PLE {
 		return ListaProductos.get(i).Precio();
 	}
 	public static void ejemplo2PLE_model() throws IOException {
-		DatosCesta.iniDatos("ficheros/Ejercicio2DatosEntrada3.txt");
+		Datos2.iniDatos("ficheros/Ejercicio2DatosEntrada1.txt");
 		
-		Presupuesto = DatosCesta.getPresupuesto();
-		ListaProductos = DatosCesta.getListaProductos();
+		ListaPresupuesto = Datos2.getListaPresupuesto();
+		ListaProductos = Datos2.getListaProductos();
 		
-		AuxGrammar.generate(Ejercicio2PLE.class,"modelos/modelo2PLE.lsi","gurobi_models/ejercicio2PLE.lp");
+		AuxGrammar.generate(Ejer2.class,"modelos/modelo2PLE.lsi","gurobi_models/ejercicio2PLE.lp");
 		GurobiSolution solution = GurobiLp.gurobi("gurobi_models/ejercicio2PLE.lp");
 		Locale.setDefault(Locale.of("en", "US"));
 		System.out.println(solution.toString((s,d)->d>0.));

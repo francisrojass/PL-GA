@@ -3,8 +3,8 @@
 Minimize
  
 Subject To
+ a0: x_0 + x_1 >= 1
  a1: x_2 >= 1
- a2: x_3 + x_4 >= 1
  b0: 10 x_0 + 150 x_1 + 150 x_2 + 100 x_3 + 120 x_4 <= 150
 Bounds
 Binaries
