@@ -13,5 +13,4 @@ module PI4 {
 	exports p4.ej_1;
 	exports p4.ej_2;
 	exports p4.ej_3;
-	exports p4.prueba;
 }

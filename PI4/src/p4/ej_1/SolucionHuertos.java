@@ -20,7 +20,6 @@ public class SolucionHuertos {
 	    int numHuertos = DatosHuertos.getNumeroHuertos();
 	    for (Integer valor : ls) {
 	        if (valor > 0 && valor < numHuertos) {
-	            
 	            solucion.add(valor);
 	        }
 	    }

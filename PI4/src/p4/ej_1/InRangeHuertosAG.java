@@ -1,7 +1,9 @@
 package p4.ej_1;
 
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import us.lsi.ag.ValuesInRangeData;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
@@ -49,8 +51,31 @@ public class InRangeHuertosAG implements ValuesInRangeData<Integer, SolucionHuer
 	    }
 	    
 	    goal = ls.stream().distinct().count(); // Contar la cantidad de variedades plantadas
-	    return -goal - (10000 * error);
+	    return goal - (10000 * error);
 	}
+	private double fitness(List<Integer> cr) {
+		return IntStream.range(0, size()).boxed()
+				.map(i->cr.get(i)).distinct().count()+0.;
+	}
+	private double distR1(List<Integer> cr) {
+		return 0.;
+	}
+	/*
+	private static Double tiempoQueTardaRestriccion1(List<Integer> cr) {
+		//Esto es la solucion es como hay que hacer las funciones distancia bufete abogados
+		return IntStream.range(0, cr.size()).boxed()
+			.filter(j -> cr.get(j) == 1)
+			.mapToDouble(j -> DatosAbogado.getTiempo(i, j))
+			.sum();
+	}
+	private static Double FitnessFuntionAbogado(List<Integer> cr) {
+		//Esto es la solucion es como hay que hacer las funciones distancia bufete abogados
+		return -IntStream.range(0, DatosHuertos.getNumeroHuertos()).boxed()
+				.mapToDouble(i -> tiempoQueTardaRestriccion1(i))
+				.max(Comparator.naturalOrder()).get();
+		//en este caso no pone -k por que no hay restricciones para penalizar.
+	}
+	*/
 
 	@Override
 	public SolucionHuertos solucion(List<Integer> ls) {
