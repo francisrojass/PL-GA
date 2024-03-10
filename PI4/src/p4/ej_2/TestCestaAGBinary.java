@@ -18,7 +18,7 @@ public class TestCestaAGBinary {
 		StoppingConditionFactory.NUM_GENERATIONS = 5000;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 		
-		BinCestaAG p = new BinCestaAG("ficheros/Ejercicio2DatosEntrada1.txt");
+		BinCestaAG p = new BinCestaAG("ficheros/Ejercicio2DatosEntrada3.txt");
 		
 		AlgoritmoAG<List<Integer>,SolucionCesta> ap = AlgoritmoAG.of(p);
 		ap.ejecuta();

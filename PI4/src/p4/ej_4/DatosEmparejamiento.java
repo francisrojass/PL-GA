@@ -88,6 +88,5 @@ public class DatosEmparejamiento {
 	}
 	public static void main(String[] args) {
 		iniDatos("ficheros/Ejercicio4DatosEntrada1.txt");
-		System.out.println(getAfinidad(1,2));
 	}
 }

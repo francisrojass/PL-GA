@@ -25,7 +25,7 @@ public class SolucionDistribuidor {
 		ListaProductos = new ArrayList<DatosDistribuidor.Productos>();
 		for (int i = 0; i < ls.size(); i++) {
 			if (ls.get(i)>0) {
-				Integer c = DatosDistribuidor.getAlmacenamientoCoste(i, j) * ls.get(i);
+				
 			}
 		}
 	}

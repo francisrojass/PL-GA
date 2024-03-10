@@ -11,9 +11,7 @@ import us.lsi.common.String2;
 public class DatosCesta {
 	
 	public static Integer Presupuesto;
-	
 	public static List<Producto> ListaProductos;
-	
 	public static Integer id;
 	public static Integer precio;
 	public static Integer categoria;
@@ -25,6 +23,9 @@ public class DatosCesta {
 		} else {
 			return 0;
 		}
+	}
+	public static Integer getCategoriaAG(Integer i) {
+		return ListaProductos.get(i).Categoria;
 	}
 	
 	public static Integer getPrecioDeCategoria(Integer i, Integer j) {

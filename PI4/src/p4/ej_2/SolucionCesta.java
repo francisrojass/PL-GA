@@ -10,7 +10,7 @@ public class SolucionCesta {
 	//aqui pondria como var, numTotalProductosSeleccionados
 	//Lista de los productos, para el string
 	private Integer NumProductSelect;
-	private List<Producto> productSelect;
+	private List<Integer> productSelect;
 	
 	public static SolucionCesta create(List<Integer> ls) {
 		return new SolucionCesta(ls);
@@ -21,14 +21,14 @@ public class SolucionCesta {
 		for (int i = 0; i < ls.size(); i++) {
 			if(ls.get(i)>0) {
 				NumProductSelect++;
-				productSelect.add(DatosCesta.getListaProductos().get(i));
+				productSelect.add(DatosCesta.getListaProductos().get(i).Id_prod());
 			}
 		}
 	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return NumProductSelect.toString();
+		
 	}
 	
 }
