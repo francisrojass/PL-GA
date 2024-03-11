@@ -1,4 +1,4 @@
-package p4.ej_1;
+package p4.ej_3;
 
 import java.util.List;
 import java.util.Locale;
@@ -6,8 +6,7 @@ import java.util.Locale;
 import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agstopping.StoppingConditionFactory;
 
-public class TestHuertosInRangeAG {
-
+public class TestDistribuidorAG {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Locale.setDefault(Locale.of("en", "US"));
@@ -17,17 +16,16 @@ public class TestHuertosInRangeAG {
 		AlgoritmoAG.MUTATION_RATE = 0.7;
 		AlgoritmoAG.POPULATION_SIZE = 50;
 		
-		StoppingConditionFactory.NUM_GENERATIONS = 5000;
+		StoppingConditionFactory.NUM_GENERATIONS = 50;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 		
-		InRangeHuertosAG p = new InRangeHuertosAG("ficheros/Ejercicio1DatosEntrada3.txt");
+		InRangeDistribuidorAG p = new InRangeDistribuidorAG("ficheros/Ejercicio3DatosEntrada1.txt");
 		
-		AlgoritmoAG<List<Integer>,SolucionHuertos> ap = AlgoritmoAG.of(p);
+		AlgoritmoAG<List<Integer>,SolucionDistribuidor> ap = AlgoritmoAG.of(p);
 		ap.ejecuta();
 		
 		System.out.println("================================");
 		System.out.println(ap.bestSolution());
 		System.out.println("================================");
 	}
-
 }

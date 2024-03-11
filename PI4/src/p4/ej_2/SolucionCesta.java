@@ -25,9 +25,14 @@ public class SolucionCesta {
 			}
 		}
 	}
+	private SolucionCesta() {
+		NumProductSelect=0;
+		productSelect= List2.empty();
+	}
+	
 	@Override
 	public String toString() {
-		return NumProductSelect.toString();
+		return " Productos Seleccionados son: " + productSelect + " Objetivo: " + NumProductSelect;
 		
 	}
 	

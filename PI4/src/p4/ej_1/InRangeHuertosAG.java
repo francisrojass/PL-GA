@@ -19,7 +19,7 @@ public class InRangeHuertosAG implements ValuesInRangeData<Integer, SolucionHuer
 		return DatosHuertos.getNumeroVariedades();
 	}
 	public Integer max(Integer i) {
-		return DatosHuertos.getNumeroHuertos();
+		return DatosHuertos.getNumeroHuertos()+1;
 	}
 	@Override
 	public Integer min(Integer i) {
@@ -50,15 +50,11 @@ public class InRangeHuertosAG implements ValuesInRangeData<Integer, SolucionHuer
 	        }
 	    }
 	    
-	    goal = ls.stream().distinct().count(); // Contar la cantidad de variedades plantadas
+	    goal = IntStream.range(0, size())
+	    		.filter(i->!(ls.get(i) == DatosHuertos.getNumeroHuertos()+1))
+	    		.distinct()
+	    		.count()+0.; // Contar la cantidad de variedades plantadas
 	    return goal - (10000 * error);
-	}
-	private double fitness(List<Integer> cr) {
-		return IntStream.range(0, size()).boxed()
-				.map(i->cr.get(i)).distinct().count()+0.;
-	}
-	private double distR1(List<Integer> cr) {
-		return 0.;
 	}
 	/*
 	private static Double tiempoQueTardaRestriccion1(List<Integer> cr) {

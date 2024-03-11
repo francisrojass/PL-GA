@@ -21,6 +21,8 @@ public class SolucionHuertos {
 	    for (Integer valor : ls) {
 	        if (valor > 0 && valor < numHuertos) {
 	            solucion.add(valor);
+	        } else {
+	        	solucion.add(ls.size()+1);
 	        }
 	    }
 	    System.out.println(ls);

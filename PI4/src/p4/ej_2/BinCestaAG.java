@@ -21,8 +21,8 @@ public class BinCestaAG implements BinaryData<SolucionCesta>{
 	}
 	@Override
 	public Double fitnessFunction(List<Integer> cr) {
-		Double res=-fitness(cr) - (distR(cr)*distRR(cr)*distRRR(cr));
-		System.out.println(res);
+		Double res= -fitness(cr) - 1000*(distR(cr)+distRR(cr)+distRRR(cr));
+		//System.out.println(res);
 		return res;
 	}
 	
@@ -40,6 +40,7 @@ public class BinCestaAG implements BinaryData<SolucionCesta>{
 				.mapToDouble(i->DatosCesta.getValoracion(i))
 				.average()
 				.orElse(0.);
+		//System.out.println("1:   "+res);
 		if (res>=3.) {
 			return 0.;
 		}else {
@@ -67,8 +68,9 @@ public class BinCestaAG implements BinaryData<SolucionCesta>{
 					.mapToInt(i->DatosCesta.getCategoriaAG(i))
 					.distinct()
 					.count()+0.;
-		
+		//System.out.println(res);
 		if (res == DatosCesta.getNumCategorias()+0.) {
+			
 			return 0.;
 		} else {// Si no cubre todas las categorias penalizamos
 			return DatosCesta.getNumCategorias()+0.;
