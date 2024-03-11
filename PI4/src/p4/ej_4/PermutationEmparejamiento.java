@@ -19,7 +19,7 @@ public class PermutationEmparejamiento implements SeqNormalData<SolucionEmpareja
 
 	@Override
 	public Double fitnessFunction(List<Integer> cr) {
-		return fitness(cr) - 1000*(distR(cr)+ distRR(cr)+ distRRR(cr));
+		return fitness(cr) - 10000*(distR(cr)+ distRR(cr)+ distRRR(cr));
 	}
 
 	private Double fitness(List<Integer> cr) {

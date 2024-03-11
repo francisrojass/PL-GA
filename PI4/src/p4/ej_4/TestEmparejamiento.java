@@ -15,10 +15,10 @@ public class TestEmparejamiento {
 		AlgoritmoAG.MUTATION_RATE = 0.7;
 		AlgoritmoAG.POPULATION_SIZE = 50;
 		
-		StoppingConditionFactory.NUM_GENERATIONS = 5000;
+		StoppingConditionFactory.NUM_GENERATIONS = 50000;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 		
-		PermutationEmparejamiento p = new PermutationEmparejamiento("ficheros/Ejercicio4DatosEntrada1.txt");
+		PermutationEmparejamiento p = new PermutationEmparejamiento("ficheros/Ejercicio4DatosEntrada3.txt");
 		
 		AlgoritmoAG<List<Integer>,SolucionEmparejamientoAG> ap = AlgoritmoAG.of(p);
 		ap.ejecuta();
