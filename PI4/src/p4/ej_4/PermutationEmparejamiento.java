@@ -16,10 +16,16 @@ public class PermutationEmparejamiento implements SeqNormalData<SolucionEmpareja
 	public ChromosomeType type() {
 		return ChromosomeType.PermutationSubList;
 	}
-
+	public Integer k() {
+		Integer k=0;
+		for (int i = 0; i < DatosEmparejamiento.ListaPersonas.size(); i++) {
+			k += DatosEmparejamiento.ListaPersonas.get(i).afinidades().values().stream().mapToInt(Integer::intValue).max().getAsInt();
+		}
+		return k;
+	}
 	@Override
 	public Double fitnessFunction(List<Integer> cr) {
-		return fitness(cr) - 10000*(distR(cr)+ distRR(cr)+ distRRR(cr));
+		return fitness(cr) - k()*(distR(cr)+ distRR(cr)+ distRRR(cr));
 	}
 
 	private Double fitness(List<Integer> cr) {

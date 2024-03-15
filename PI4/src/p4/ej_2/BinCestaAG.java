@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import p4.ej_2.DatosCesta.Producto;
 import us.lsi.ag.BinaryData;
 
 public class BinCestaAG implements BinaryData<SolucionCesta>{
@@ -19,9 +20,17 @@ public class BinCestaAG implements BinaryData<SolucionCesta>{
 	public SolucionCesta solucion(List<Integer> ls) {
 		return SolucionCesta.create(ls);
 	}
+	public Integer valorK() {
+		List<Producto> res =DatosCesta.ListaProductos;
+		Integer k=0;
+		for (int i = 0; i < res.size(); i++) {
+			k+=res.get(i).Precio();
+		}
+		return k;
+	}
 	@Override
 	public Double fitnessFunction(List<Integer> cr) {
-		Double res= -fitness(cr) - 1000*(distR(cr)+distRR(cr)+distRRR(cr));
+		Double res= -fitness(cr) - valorK()*(distR(cr)+distRR(cr)+distRRR(cr));
 		//System.out.println(res);
 		return res;
 	}

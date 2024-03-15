@@ -16,10 +16,10 @@ public class TestDistribuidorAG {
 		AlgoritmoAG.MUTATION_RATE = 0.7;
 		AlgoritmoAG.POPULATION_SIZE = 50;
 		
-		StoppingConditionFactory.NUM_GENERATIONS = 50;
+		StoppingConditionFactory.NUM_GENERATIONS = 50000;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 		
-		InRangeDistribuidorAG p = new InRangeDistribuidorAG("ficheros/Ejercicio3DatosEntrada1.txt");
+		InRangeDistribuidorAG p = new InRangeDistribuidorAG("ficheros/Ejercicio3DatosEntrada3.txt");
 		
 		AlgoritmoAG<List<Integer>,SolucionDistribuidor> ap = AlgoritmoAG.of(p);
 		ap.ejecuta();

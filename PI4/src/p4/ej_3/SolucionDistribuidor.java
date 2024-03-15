@@ -27,21 +27,18 @@ public class SolucionDistribuidor {
 	    CosteAlmacenamiento = 0;
 	    int numDestinos = DatosDistribuidor.getNumDestinos();
 	    for (int i = 0; i < ls.size(); i++) {
-	        int producto = i / numDestinos; // Calcular el índice del producto
-	        int destino = i % numDestinos; // Calcular el índice del destino
-	        if (ls.get(i) > 0) {
-	            solucion.add(DatosDistribuidor.getDemandaMinima(destino));
-	            CosteAlmacenamiento += DatosDistribuidor.getAlmacenamientoCoste(producto, destino);
-	        } else {
-	            solucion.add(0);
+	        Integer producto = i / numDestinos; // Calcular el índice del producto
+	        Integer destino = i % numDestinos; // Calcular el índice del destino
+	        solucion.add(ls.get(i));
+	        if(ls.get(i)!=0) {
+	        	CosteAlmacenamiento += DatosDistribuidor.getAlmacenamientoCoste(producto, destino)*ls.get(i);
 	        }
 	    }
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return solucion.toString() + "CosteAlmacenamiento = "+CosteAlmacenamiento.toString();
+		return solucion.toString() + "\nCosteAlmacenamiento = "+CosteAlmacenamiento.toString();
 	}
 	
 }

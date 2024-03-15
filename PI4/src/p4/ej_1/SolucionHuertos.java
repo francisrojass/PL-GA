@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SolucionHuertos {
 	List<Integer> solucion;
-	
+	long NumeroVariedades;
 	
 	public static SolucionHuertos of(List<Integer> ls) {
 		return new SolucionHuertos(ls);
@@ -17,19 +17,20 @@ public class SolucionHuertos {
 	
 	private SolucionHuertos(List<Integer> ls) {
 	    solucion = new ArrayList<Integer>();
-	    int numHuertos = DatosHuertos.getNumeroHuertos();
 	    for (Integer valor : ls) {
-	        if (valor > 0 && valor < numHuertos) {
-	            solucion.add(valor);
-	        } else {
-	        	solucion.add(ls.size()+1);
-	        }
+	        solucion.add(valor);
 	    }
-	    System.out.println(ls);
+	    NumeroVariedades = solucion.stream()
+	    		.filter(i -> !(i == DatosHuertos.getNumeroHuertos())).count();
 	}
 
 	private SolucionHuertos() {
-		
 		solucion = new ArrayList<Integer>();
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Lista: "+solucion.toString()+"\nNumero de variedades plantadas: " + NumeroVariedades;
 	}
 }

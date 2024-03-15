@@ -13,7 +13,6 @@ import us.lsi.common.String2;
 public class DatosDistribuidor {
 	public static void main(String[] args) {
 		iniDatos("ficheros/Ejercicio3DatosEntrada1.txt");
-		System.out.println(1%3);
 	}
 	public static List<Destino> ListaDestino;
 	public static List<Productos> ListaProductos;

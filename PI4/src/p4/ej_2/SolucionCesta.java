@@ -9,30 +9,30 @@ public class SolucionCesta {
 
 	//aqui pondria como var, numTotalProductosSeleccionados
 	//Lista de los productos, para el string
-	private Integer NumProductSelect;
+	private Integer price;
 	private List<Integer> productSelect;
 	
 	public static SolucionCesta create(List<Integer> ls) {
 		return new SolucionCesta(ls);
 	}
 	private SolucionCesta(List<Integer> ls) {
-		NumProductSelect=0;
+		price=0;
 		productSelect = List2.empty();
 		for (int i = 0; i < ls.size(); i++) {
 			if(ls.get(i)>0) {
-				NumProductSelect++;
+				price+=DatosCesta.getPrecio(i);
 				productSelect.add(DatosCesta.getListaProductos().get(i).Id_prod());
 			}
 		}
 	}
 	private SolucionCesta() {
-		NumProductSelect=0;
+		price=0;
 		productSelect= List2.empty();
 	}
 	
 	@Override
 	public String toString() {
-		return " Productos Seleccionados son: " + productSelect + " Objetivo: " + NumProductSelect;
+		return " Productos Seleccionados son: " + productSelect + " Precio total de la cesta:: " + price;
 		
 	}
 	

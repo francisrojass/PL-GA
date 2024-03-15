@@ -17,10 +17,10 @@ public class TestHuertosInRangeAG {
 		AlgoritmoAG.MUTATION_RATE = 0.7;
 		AlgoritmoAG.POPULATION_SIZE = 50;
 		
-		StoppingConditionFactory.NUM_GENERATIONS = 5000;
+		StoppingConditionFactory.NUM_GENERATIONS = 100000;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 		
-		InRangeHuertosAG p = new InRangeHuertosAG("ficheros/Ejercicio1DatosEntrada3.txt");
+		InRangeHuertosAG p = new InRangeHuertosAG("ficheros/Ejercicio1DatosEntrada2.txt");
 		
 		AlgoritmoAG<List<Integer>,SolucionHuertos> ap = AlgoritmoAG.of(p);
 		ap.ejecuta();

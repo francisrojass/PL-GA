@@ -16,5 +16,6 @@ constraints section
 
 sum(x[i,j], i in 0 .. n) >= getDemandaMinima(j), j in 0 .. m
 sum(x[i,j], j in 0 .. m) <= getCantidadDisponibleUnidades(i), i in 0 .. n
+
 int
 x[i,j], i in 0 .. n, j in 0 .. m

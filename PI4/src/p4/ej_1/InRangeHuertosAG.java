@@ -1,8 +1,8 @@
 package p4.ej_1;
 
-
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import us.lsi.ag.ValuesInRangeData;
@@ -26,57 +26,60 @@ public class InRangeHuertosAG implements ValuesInRangeData<Integer, SolucionHuer
 		return 0;
 	}
 	
-	public Double fitnessFunction(List<Integer> ls) {
-	    double goal = 0., error = 0.;
-	    
-	    // Primera restricción
-	    for (int j = 0; j < DatosHuertos.getNumeroHuertos(); j++) {
-	        double metrosRequeridos = 0;
-	        for (int i = 0; i < ls.size(); i++) {
-	            int huertoSeleccionado = ls.get(i);
-	            if (huertoSeleccionado == j) {
-	                metrosRequeridos += DatosHuertos.getMetrosRequeridosS(i);
-	            }
-	        }
-	        error += Math.max(0, metrosRequeridos - DatosHuertos.getMetrosDisponibleH(j));
-	    }
-	    
-	    // Segunda restricción
-	    for (int i = 0; i < ls.size(); i++) {
-	        for (int k = i + 1; k < ls.size(); k++) {
-	            if (DatosHuertos.esIncompatible(i, k) == 1 && ls.get(i) == ls.get(k)) {
-	                error += 40; // Penalizar cuando dos variedades incompatibles se plantan en el mismo huerto
-	            }
-	        }
-	    }
-	    
-	    goal = IntStream.range(0, size())
-	    		.filter(i->!(ls.get(i) == DatosHuertos.getNumeroHuertos()+1))
+	@Override
+	public Double fitnessFunction(List<Integer> cr) {
+		return fitness(cr)-1000*(distR(cr)+distRR(cr));
+	}
+
+	public Double fitness(List<Integer> cr) {
+		return IntStream.range(0, size())
+	    		.filter(i->!(cr.get(i) == DatosHuertos.getNumeroHuertos()+1))
 	    		.distinct()
-	    		.count()+0.; // Contar la cantidad de variedades plantadas
-	    return goal - (10000 * error);
+	    		.count()+0.;
+	}
+/*
+ *  La cantidad total de espacio utilizado en cada huerto no puede
+exceder la disponibilidad
+ */
+	public Double distR(List<Integer> cr) {
+		Double error = 0.;
+		Map<Integer, Integer> res = IntStream.range(0, cr.size()) 
+                .boxed()
+                .filter(i -> !(cr.get(i) == DatosHuertos.getNumeroHuertos()))
+                .collect(Collectors.groupingBy(
+                        i -> cr.get(i),
+                        Collectors.summingInt(DatosHuertos::getMetrosRequeridosS)
+                ));
+		//System.out.println(res);
+		for (Map.Entry<Integer, Integer> entry : res.entrySet()) {
+            int valorMapa = entry.getValue();
+            if (valorMapa < DatosHuertos.getMetrosDisponibleH(entry.getKey())) {
+                error+=0.;
+            } else {
+            	error+=1000.;
+            }
+        }
+		return error;
 	}
 	/*
-	private static Double tiempoQueTardaRestriccion1(List<Integer> cr) {
-		//Esto es la solucion es como hay que hacer las funciones distancia bufete abogados
-		return IntStream.range(0, cr.size()).boxed()
-			.filter(j -> cr.get(j) == 1)
-			.mapToDouble(j -> DatosAbogado.getTiempo(i, j))
-			.sum();
+	 * Las variedades incompatibles no pueden plantarse en el mismo
+	 * huerto
+	 */
+	public Double distRR(List<Integer> cr) {
+		Double error = 0.;
+		for (int i = 0; i < cr.size(); i++) {
+	        for (int k = i + 1; k < cr.size(); k++) {
+	            if ((DatosHuertos.esIncompatible(i, k) == 1) && (cr.get(i) == cr.get(k))) {
+	                error += 1000; // Penalizar cuando dos variedades incompatibles se plantan en el mismo huerto
+	            }
+	        }
+	    }
+		return error;
 	}
-	private static Double FitnessFuntionAbogado(List<Integer> cr) {
-		//Esto es la solucion es como hay que hacer las funciones distancia bufete abogados
-		return -IntStream.range(0, DatosHuertos.getNumeroHuertos()).boxed()
-				.mapToDouble(i -> tiempoQueTardaRestriccion1(i))
-				.max(Comparator.naturalOrder()).get();
-		//en este caso no pone -k por que no hay restricciones para penalizar.
-	}
-	*/
-
 	@Override
 	public SolucionHuertos solucion(List<Integer> ls) {
 		return SolucionHuertos.of(ls);
 	}
-
+	
 
 }

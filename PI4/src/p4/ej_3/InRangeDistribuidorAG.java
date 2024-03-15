@@ -3,6 +3,8 @@ package p4.ej_3;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import p4.ej_3.DatosDistribuidor.Destino;
+import p4.ej_3.DatosDistribuidor.Productos;
 import us.lsi.ag.ValuesInRangeData;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 
@@ -14,62 +16,85 @@ public class InRangeDistribuidorAG implements ValuesInRangeData<Integer, Solucio
 		return ChromosomeType.Range;
 	}
 	public Integer size() {
-		return DatosDistribuidor.getNumProductos() * DatosDistribuidor.getNumDestinos();
+		return (DatosDistribuidor.getNumProductos() * DatosDistribuidor.getNumDestinos());
 	}
 	public Integer min(Integer i) {
 		return 0;
 	}
 	public Integer max(Integer i) {
-		return 101;
+		return DatosDistribuidor.getCantidadDisponibleUnidades(saberProducto(i));
 	}
 	
 	public SolucionDistribuidor solucion(List<Integer> cr) {
 		return SolucionDistribuidor.of_Range(cr);
 	}
-
 	@Override
 	public Double fitnessFunction(List<Integer> cr) {
-		return -fitness(cr)- 1000*(distR(cr)+distRR(cr));
+		Double res = -fitness(cr) - 1000*(distR(cr)+distRR(cr));
+		//System.out.println(res);
+		return res;
 	}
+	/*
+	 * El coste de almacenamiento es unitario, por unidad enviada
+	 */
+	
 	//La cantidad total enviada de cada tipo de producto no puede exceder la cantidad disponible
-	private Double distR(List<Integer> cr) {
-		Boolean res = IntStream.range(0, size()).boxed()
-				.filter(i -> !(cr.get(i)==0))
-				.allMatch(i->cr.get(saberProducto(i))<=DatosDistribuidor.getCantidadDisponibleUnidades(saberProducto(i)));
-		System.out.println(res);
-		if(res) {
-			
-			return 0.;
-		} else {
-			return size()+0.;//Penaliza
+	
+	public Double distR(List<Integer> cr) {
+		Double error = 0.;
+		//a sera el numero de elementos por productos, en este caso 5
+		Integer a = cr.size()/DatosDistribuidor.getNumProductos();
+		Integer b = 0;
+		
+		for (int k = 0; k < DatosDistribuidor.getNumProductos(); k++) {
+			Integer UnidadesDeProducto = DatosDistribuidor.getCantidadDisponibleUnidades(k);
+			for (int i = b; i < a; i++) {
+				UnidadesDeProducto = UnidadesDeProducto - cr.get(i);
+				
+				if(UnidadesDeProducto<0) {
+					error+=100.;
+				}
+			}
+			b=b+a;
 		}
+		return error;	
 	}
+	
+	
 	// La cantidad enviada a cada destino debe superar la demandamínima
-	private Double distRR(List<Integer> cr) {
-		Boolean res= IntStream.range(0, size()).boxed()
+	public Double distRR(List<Integer> cr) {
+		Double error=0.;
+		Boolean res = IntStream.range(0, size()).boxed()
 				.filter(i -> !(cr.get(i)==0))
 				.allMatch(i->cr.get(i)>=DatosDistribuidor.getDemandaMinima(saberDestino(i)));
 		
+		Integer res2 = IntStream.range(0, size()).boxed().mapToInt(i->cr.get(i)).sum(); 
 		if(res) {
-			return 0.;
+			error+=0.;
 		} else {
-			return size()+0.;//Penaliza
+			error+=100.;//Penaliza
 		}
+		if(res2==0) {
+			error+=100.;
+		}
+		return error;
 			
 	}
-	private Integer saberDestino(Integer i) {
+	
+	//(n*j)+i
+	public Integer saberDestino(Integer i) {
 		Integer NumDestinos = DatosDistribuidor.getNumDestinos();
 		return i%NumDestinos;
 	}
-	private Integer saberProducto(Integer i) {
+	public Integer saberProducto(Integer i) {
 		Integer NumDestinos = DatosDistribuidor.getNumDestinos();
 		return i/NumDestinos;
 	}
 	
 	public Double fitness(List<Integer> cr) {
 		return IntStream.range(0, size()).boxed()
-				.mapToInt(i -> DatosDistribuidor.getAlmacenamientoCoste(saberProducto(i), saberDestino(i)))
+				.filter(i -> !(cr.get(i)==0))
+				.mapToInt(i -> DatosDistribuidor.getAlmacenamientoCoste(saberProducto(i), saberDestino(i))*cr.get(i))
 				.sum()+0.;
 	}
-
 }
