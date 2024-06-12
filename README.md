@@ -1,4 +1,4 @@
-# README del Conjunto de Problemas
+# Conjunto de Problemas resueltos con PL y AG
 
 ## Problema 1: Planificación de Cultivos
 
